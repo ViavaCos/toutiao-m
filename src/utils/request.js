@@ -19,9 +19,24 @@ const instance = axios.create({
 // 请求拦截器
 instance.interceptors.request.use((config) => {
   // 设置携带请求头
-  config.headers.Authorization = `Bearer ${store.state.token.token}`
+  const { token } = store.state
+  if (token) {
+    config.headers.Authorization = `Bearer ${token.token}`
+  }
   //   返回配置
   return config
+}, err => Promise.reject(err))
+
+// 响应拦截器
+instance.interceptors.response.use((res) => {
+  // 处理响应数据
+  try {
+    //   返回想要的数据
+    console.log(res)
+    return res.data.data
+  } catch (error) {
+    return res
+  }
 }, async err => {
   // 处理token失效问题
   // 1.判断用户是否登录
@@ -63,20 +78,10 @@ instance.interceptors.request.use((config) => {
   return Promise.reject(err)
 })
 
-// 响应拦截器
-instance.interceptors.response.use((res) => {
-  // 处理响应数据
-  try {
-    //   返回想要的数据
-    return res.data.data
-  } catch (error) {
-    return res
-  }
-})
-
 // 导出处理函数
-export default (url, method, data) => {
-  instance({
+export default ({ url, method, data }) => {
+  // bug:没写return
+  return instance({
     url,
     method,
     // 判断是params传参还是data传参

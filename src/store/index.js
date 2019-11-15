@@ -12,6 +12,7 @@ export default new Vuex.Store({
   mutations: {
     // 设置token  data 为对象
     setToken (state, data) {
+      console.log('***', data)
       // 设置给state中的数据
       state.token = data
       // 修改本地存储中的token

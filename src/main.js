@@ -7,7 +7,7 @@ import Vant from 'vant'
 // 引入amfe-flexible
 import 'amfe-flexible'
 // 引入全局样式
-import 'vant/lib/index.css'
+import 'vant/lib/index.less'
 import '@/styles/index.less'
 // 使用vant
 Vue.use(Vant)
