@@ -1,7 +1,8 @@
 import axios from 'axios'
 import store from '@/store'
 import JSONBIG from 'json-bigint'
-import router from 'vue-router'
+// import router from 'vue-router'
+import router from '@/router'
 
 const instance = axios.create({
   // 设置基准地址
@@ -20,7 +21,9 @@ const instance = axios.create({
 instance.interceptors.request.use((config) => {
   // 设置携带请求头
   const { token } = store.state
-  if (token) {
+  // bug: 这里应该是token.token而不是token,因为只有/user下的模块发起的请求需要携带token
+  // 否则你手动跳转到主页也会被重定向回登录页。。。
+  if (token.token) {
     config.headers.Authorization = `Bearer ${token.token}`
   }
   //   返回配置
@@ -32,7 +35,7 @@ instance.interceptors.response.use((res) => {
   // 处理响应数据
   try {
     //   返回想要的数据
-    console.log(res)
+    // console.log(res)
     return res.data.data
   } catch (error) {
     return res
@@ -49,7 +52,8 @@ instance.interceptors.response.use((res) => {
   if (err.response.status === 401) {
     const { token } = store.state
     // 定义回跳参数
-    const redirectUrl = { path: '/login', query: { returnUrl: router.currentRoute } }
+    const redirectUrl = { path: '/login', query: { returnUrl: router.currentRoute.path } }
+    // console.log('redirectUrl', redirectUrl)
     if (!token || !token.token || !token.refresh_token) {
       // 判断token是否存在
       return router.push(redirectUrl)

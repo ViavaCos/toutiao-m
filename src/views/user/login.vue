@@ -39,8 +39,8 @@ export default {
     return {
       // 表格数据
       loginForm: {
-        mobile: null,
-        code: null
+        mobile: '13911111111',
+        code: '246810'
       },
       // 报错信息
       errMsg: {
@@ -97,10 +97,10 @@ export default {
         try {
           // 发送登录请求
           const data = await login(this.loginForm)
-          window.console.log(data)
+          // window.console.log(data)
           // 设置token给vuex和本地存储
           this.setToken(data)
-          debugger
+          // debugger
           // 页面跳转
           // window.console.log(this)
           this.$router.push(this.$route.query.returnUrl || '/user')
