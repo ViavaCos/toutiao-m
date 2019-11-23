@@ -104,6 +104,7 @@ export default {
           // 页面跳转
           // window.console.log(this)
           this.$router.push(this.$route.query.returnUrl || '/user')
+          this.$toast.fail('登录成功')
         } catch (error) {
           // Toast.fail('失败文案');
           this.$toast.fail('登录失败')

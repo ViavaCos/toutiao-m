@@ -12,3 +12,26 @@ export const login = (data) => {
     data
   })
 }
+
+/**
+ *  关注用户
+ * @param {*integer} target 用户id
+ */
+export const following = (target) => {
+  return request({
+    url: '/app/v1_0/user/followings',
+    method: 'post',
+    data: { target }
+  })
+}
+
+/**
+ *  取消关注用户
+ * @param {*integer} target 用户id
+ */
+export const unFollowing = (target) => {
+  return request({
+    url: `/app/v1_0/user/followings/${target}`,
+    method: 'delete'
+  })
+}
