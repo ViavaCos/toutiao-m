@@ -7,7 +7,7 @@
         <van-image round width="1rem" height="1rem" fit="fill" :src="articleDetail.aut_photo" />
         <div class="text">
           <p class="name">{{articleDetail.aut_name}}</p>
-          <p class="time">{{articleDetail.pubdate}}</p>
+          <p class="time">{{articleDetail.pubdate | timeFormat}}</p>
         </div>
         <van-button
           @click="changeFllowingStatus(articleDetail.aut_id)"

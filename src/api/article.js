@@ -160,3 +160,22 @@ export const getReply = ({ type, source, offset }) => {
     data: { type, source, offset, limit: 10 }
   })
 }
+
+/**
+ * 回复或评论
+ * @param {integer} target 评论-文章id  回复-评论id
+ * @param {string} content 评论内容
+ * @param {integer} artID 文章id
+ */
+export const replyOrComment = (target, content, artID) => {
+  return request({
+    url: '/app/v1_0/comments',
+    method: 'post',
+    data: {
+      target,
+      content,
+      art_id: artID
+    }
+
+  })
+}

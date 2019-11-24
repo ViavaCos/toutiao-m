@@ -35,3 +35,53 @@ export const unFollowing = (target) => {
     method: 'delete'
   })
 }
+
+/**
+ *  获取用户个人信息
+ */
+export const getUserInfo = () => {
+  return request({
+    url: '/app/v1_0/user',
+    method: 'get'
+  })
+}
+
+/**
+ * 获取用户编辑信息
+ */
+export const getUserEditInfo = () => {
+  return request({
+    url: '/app/v1_0/user/profile',
+    method: 'get'
+  })
+}
+
+/**
+ * 上传头像
+ * @param {FormData} formData  图片对象
+ */
+export const uploadPhoto = (formData) => {
+  return request({
+    url: '/app/v1_0/user/photo',
+    method: 'patch',
+    data: formData
+  })
+}
+
+/**
+ * 上传用户信息
+ * @param {String} name 姓名
+ * @param {String} gender 性别
+ * @param {String} birthday 出生日期
+ */
+export const uploadUserInfo = (name, gender, birthday) => {
+  return request({
+    url: '/app/v1_0/user/profile',
+    method: 'patch',
+    data: {
+      name,
+      gender,
+      birthday
+    }
+  })
+}

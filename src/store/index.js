@@ -7,7 +7,8 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    token: auth.getUser()
+    token: auth.getUser(),
+    myPhoto: null
   },
   mutations: {
     // 设置token  data 为对象
@@ -24,6 +25,12 @@ export default new Vuex.Store({
       state.token = {}
       // 清空本地存储
       auth.delUser()
+    },
+    // 设置我的头像
+    setMyPhoto (state, photo) {
+      console.log(photo)
+      state.myPhoto = photo
+      console.log(state.myPhoto)
     }
   },
   actions: {

@@ -1,10 +1,10 @@
 <template>
   <div class="container">
     <!-- 头部 -->
-    <van-nav-bar fixed title="黑马头条" right-text="搜索" @click-right="$router.push('/search')" />
+    <van-nav-bar fixed title="黑马头条" v-if="$route.path!=='/user'" right-text="搜索" @click-right="$router.push('/search')" />
 
     <!-- 主体 -->
-    <div class="my-wrapper">
+    <div class="my-wrapper" :class="{noTop:$route.path === '/user'}">
       <!-- 二级路由视图 -->
       <keep-alive>
         <!-- 区分二级路由中的home，并开启缓存组件 -->

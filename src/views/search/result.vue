@@ -20,7 +20,7 @@
             <div class="info_box">
               <span>{{item.aut_name}}</span>
               <span>{{item.comm_count}}评论</span>
-              <span>{{item.pubdate}}</span>
+              <span>{{item.pubdate | timeFormat}}</span>
             </div>
           </div>
         </van-cell>

@@ -1,17 +1,143 @@
 <template>
   <div class="container">
-    <van-image
-  width="200"
-  height="200"
-  style="margin: 150px auto; display:block"
-  src="https://img.yzcdn.cn/vant/cat.jpeg"
-/>
+    <div class="user-profile">
+      <div class="info">
+        <van-image round :src="user.photo || 'https://img.yzcdn.cn/vant/cat.jpeg'" />
+        <h3 class="name">
+          {{user.name}}
+          <br />
+          <van-tag size="mini">申请认证</van-tag>
+        </h3>
+      </div>
+      <van-row>
+        <van-col span="8">
+          <p>{{user.art_count}}</p>
+          <p>动态</p>
+        </van-col>
+        <van-col span="8">
+          <p>{{user.follow_count}}</p>
+          <p>关注</p>
+        </van-col>
+        <van-col span="8">
+          <p>{{user.fans_count}}</p>
+          <p>粉丝</p>
+        </van-col>
+      </van-row>
+    </div>
+    <van-row class="user-links">
+      <van-col span="8">
+        <van-icon name="newspaper-o" color="#7af"/>我的作品
+      </van-col>
+      <van-col span="8">
+        <van-icon name="star-o" color="#f00"/>我的收藏
+      </van-col>
+      <van-col span="8">
+        <van-icon name="tosend" color="#fa0"/>阅读历史
+      </van-col>
+    </van-row>
+
+    <van-cell-group class="user-group">
+      <van-cell icon="edit" title="编辑资料" to="/user/profile" is-link />
+      <van-cell icon="chat-o" title="小智同学" to="/user/chat" is-link />
+      <van-cell icon="setting-o" title="系统设置" is-link />
+      <van-cell icon="warning-o" title="退出登录" @click="logout"/>
+    </van-cell-group>
   </div>
 </template>
 
 <script>
-export default {}
+import { getUserInfo } from '@/api/user'
+import { mapMutations } from 'vuex'
+
+export default {
+  data () {
+    return {
+      user: {
+        photo: null
+      }
+    }
+  },
+  created () {
+    this.getUserInfo()
+    // 设置我的头像 (设置小爱同学中我的头像)
+  },
+  methods: {
+    ...mapMutations(['delToken', 'setMyPhoto']),
+    // 获取用户个人信息
+    async getUserInfo () {
+      const data = await getUserInfo()
+      // console.log(data)
+      this.user = data
+    },
+    // 退出登录
+    logout () {
+      this.$dialog.confirm({
+        title: '温馨提示',
+        message: '您确定要退出登录吗？'
+      }).then(() => {
+        this.delToken()
+        this.$router.replace('/login')
+      }).catch(() => {
+        // 不做任何事情
+      })
+    }
+  },
+  watch: {
+    'user.photo': {
+      // bug: 一直报错，一直报错。原来这里的处理函数只能是 handler ...
+      handler (newValue, oldValue) {
+        // console.log(newValue)
+        this.setMyPhoto(newValue)
+      }
+    }
+  }
+}
 </script>
 
 <style scoped lang='less'>
+.user {
+  &-profile {
+    width: 100%;
+    height: 150px;
+    display: block;
+    background: #3296fa;
+    color: #fff;
+    .info {
+      display: flex;
+      padding: 20px;
+      align-items: center;
+      .van-image {
+        width: 64px;
+        height: 64px;
+      }
+      .name {
+        font-size: 16px;
+        font-weight: normal;
+        margin-left: 10px;
+      }
+      .van-tag {
+        background: #fff;
+        color: #3296fa;
+      }
+    }
+    p {
+      margin: 0;
+      text-align: center;
+    }
+  }
+  &-group {
+    margin-bottom: 15px;
+  }
+  &-links {
+    padding: 15px 0;
+    font-size: 12px;
+    text-align: center;
+    background-color: #fff;
+    .van-icon {
+      display: block;
+      font-size: 24px;
+      padding-bottom: 5px;
+    }
+  }
+}
 </style>
