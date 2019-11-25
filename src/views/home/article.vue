@@ -1,6 +1,13 @@
 <template>
   <div class="container">
-    <van-nav-bar fixed title="文章详情" left-arrow @click-left="$router.back()" />
+    <van-nav-bar
+      fixed
+      title="文章详情"
+      left-arrow
+      @click-left="$router.back()"
+      right-text="分享"
+      @click-right="share"
+    />
     <div class="detail">
       <h3 class="title">{{articleDetail.title}}</h3>
       <div class="author">
@@ -38,8 +45,8 @@
         >不喜欢</van-button>
       </div>
 
-    <!-- 评论区域 -->
-    <article-comment></article-comment>
+      <!-- 评论区域 -->
+      <article-comment></article-comment>
     </div>
   </div>
 </template>
@@ -70,7 +77,6 @@ export default {
         // 文章id
         art_id: null
       }
-
     }
   },
   components: {
@@ -83,6 +89,21 @@ export default {
     this.articleDetail = data
   },
   methods: {
+    // 通过系统组件分享
+    share () {
+      // eslint-disable-next-line no-undef
+      plus.share.sendWithSystem(
+        { content: '我分享了一个链接快来瞅瞅吧~', href: 'https://github.com/ViavaCos/toutiao-m' },
+        function () {
+          // console.log('分享成功')
+          this.$toast.success('分享成功')
+        },
+        function (e) {
+          // console.log('分享失败：' + JSON.stringify(e))
+          this.$toast.fail('分享失败', +JSON.stringify(e))
+        }
+      )
+    },
     // 更改关注状态
     changeFllowingStatus (id) {
       try {
@@ -131,9 +152,7 @@ export default {
         this.$toast.fail('操作失败')
       }
     }
-
   }
-
 }
 </script>
 

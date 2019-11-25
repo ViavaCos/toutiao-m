@@ -28,9 +28,9 @@ export default new Vuex.Store({
     },
     // 设置我的头像
     setMyPhoto (state, photo) {
-      console.log(photo)
+      // console.log(photo)
       state.myPhoto = photo
-      console.log(state.myPhoto)
+      // console.log(state.myPhoto)
     }
   },
   actions: {

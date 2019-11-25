@@ -1,23 +1,46 @@
 <template>
   <div class="container">
-    <van-swipe :autoplay="3000" indicator-color="white" :height="300">
-      <van-swipe-item>1</van-swipe-item>
-      <van-swipe-item>2</van-swipe-item>
-      <van-swipe-item>3</van-swipe-item>
-      <van-swipe-item>4</van-swipe-item>
-    </van-swipe>
+    <div id="map">地图加载中...</div>
   </div>
 </template>
 
 <script>
-export default {}
+export default {
+  data () {
+    return {
+      em: null,
+      map: null
+    }
+  },
+  created () {
+    if (window.plus) {
+      this.plusReady()
+    } else {
+      document.addEventListener('plusready', this.plusReady, false)
+    }
+  },
+  methods: {
+    // plus 手机端变量
+    plusReady () {
+      // 确保DOM解析完成
+      if (!this.em || !window.plus || this.map) { return };
+      // eslint-disable-next-line no-undef
+      this.map = new plus.maps.Map('map')
+      // eslint-disable-next-line no-undef
+      this.map.centerAndZoom(new plus.maps.Point(116.3977, 39.906016), 12)
+    }
+  }
+}
 </script>
 
 <style scope lang="less">
-.van-swipe-item{
-  background-color: skyblue;
+#map {
+  width: 100%;
+  position: fixed;
+  top: 0px;
+  bottom: 0px;
+  line-height: 200px;
   text-align: center;
-  line-height: 300px;
-  font-size: 50px;
+  background: #ffffff;
 }
 </style>
