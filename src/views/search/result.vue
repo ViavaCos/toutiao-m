@@ -53,6 +53,7 @@ export default {
   },
   created () {
     this.getResult()
+    console.log(this.$route)
   },
   methods: {
     // 获取搜索结果
